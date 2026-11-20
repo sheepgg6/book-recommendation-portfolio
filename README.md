@@ -12,13 +12,18 @@
 
 ## 프로젝트 개요
 
-| 항목 | 내용 |
-| --- | --- |
-| 기간 | 2026.08.10 ~ 2026.09.28 (6주) |
-| 팀 | 6명 (백엔드 2, AI 1, 프론트 3) |
-| 담당 | 도서 데이터 수집·적재 파이프라인, 인증·도서 API, DB 스키마 |
-| 데이터 | 도서 331만 권, 이 중 검색 노출 97.6만 권, 추천 후보 40.6만 권 |
-| 기술 | Java 21, Spring Boot 3.5, PostgreSQL 16, Elasticsearch 8(nori), Qdrant, Flyway, Python, DuckDB, Docker, Jenkins |
+<table>
+<thead>
+<tr><th nowrap>항목</th><th nowrap>내용</th></tr>
+</thead>
+<tbody>
+<tr><td nowrap>기간</td><td>2026.08.10 ~ 2026.09.28 (6주)</td></tr>
+<tr><td nowrap>팀</td><td>6명 (백엔드 2, AI 1, 프론트 3)</td></tr>
+<tr><td nowrap>담당</td><td>도서 데이터 수집·적재 파이프라인, 인증·도서 API, DB 스키마</td></tr>
+<tr><td nowrap>데이터</td><td>도서 331만 권, 이 중 검색 노출 97.6만 권, 추천 후보 40.6만 권</td></tr>
+<tr><td nowrap>기술</td><td>Java 21, Spring Boot 3.5, PostgreSQL 16, Elasticsearch 8(nori), Qdrant, Flyway, Python, DuckDB, Docker, Jenkins</td></tr>
+</tbody>
+</table>
 
 ## 내가 한 일
 
@@ -41,13 +46,18 @@
 
 ## 핵심 성과
 
-| 개선 | 지표 | 전 | 후 |
-| --- | --- | --- | --- |
-| 호출 한도 소진 감지 | "데이터 없음"으로 잘못 기록된 도서 | 19,472건 영구 누락 | 다시 수집 대상으로 복구 |
-| 노출 정책 분리 | 소장 도서관이 한 곳도 없는 책의 검색 노출 | 노출됨 | 제외 (58,222권) |
-| 판본 묶기 | 비슷한 책에서 데미안 94권이 차지하는 묶음 | 24묶음 | 5묶음 |
-| 세션 갱신 | 로그인 유지 | 15분마다 로그아웃 | 최대 14일 |
-| 비슷한 책 판본 제외 (프로젝트 후) | 판본 많은 고전 30권 중 8권 미만으로 보이는 책 | 27권 | 1권 |
+<table>
+<thead>
+<tr><th nowrap>개선</th><th nowrap>지표</th><th nowrap>전</th><th nowrap>후</th></tr>
+</thead>
+<tbody>
+<tr><td nowrap>호출 한도 소진 감지</td><td>"데이터 없음"으로 잘못 기록된 도서</td><td nowrap>19,472건 영구 누락</td><td nowrap>다시 수집 대상으로 복구</td></tr>
+<tr><td nowrap>노출 정책 분리</td><td>소장 도서관이 한 곳도 없는 책의 검색 노출</td><td nowrap>노출됨</td><td nowrap>제외 (58,222권)</td></tr>
+<tr><td nowrap>판본 묶기</td><td>비슷한 책에서 데미안 94권이 차지하는 묶음</td><td nowrap>24묶음</td><td nowrap>5묶음</td></tr>
+<tr><td nowrap>세션 갱신</td><td nowrap>로그인 유지</td><td nowrap>15분마다 로그아웃</td><td nowrap>최대 14일</td></tr>
+<tr><td nowrap>비슷한 책 판본 제외<br>(프로젝트 후)</td><td>판본 많은 고전 30권 중 8권 미만으로 보이는 책</td><td nowrap>27권</td><td nowrap>1권</td></tr>
+</tbody>
+</table>
 
 수집 로그와 저장소 기록에 남은 값이고, 비슷한 책은 프로젝트가 끝난 뒤 운영 데이터 백업(도서 331만 권, 벡터 44만 건)으로 쟀습니다.
 
@@ -100,13 +110,18 @@
 
 ## 기술 선택 이유
 
-| 선택 | 이유 |
-| --- | --- |
-| Elasticsearch + nori | 띄어쓰기 없이 "총균쇠"로 검색해도 「총 균 쇠」를 찾도록 한국어 형태소 분석이 필요해서 |
-| PostgreSQL 부분 인덱스·CHECK 제약 | 331만 권 중 검색·추천 대상만 빠르게 고르고, 데이터 정책을 DB 수준에서 지키려고 |
-| DuckDB | 수백만 행의 원천 파일을 DB에 넣기 전에 PC에서 바로 정제하고 합치려고 |
-| systemd로 수집기 운영 | 며칠씩 걸리는 수집을 서버에서 무인으로 돌리고, 메모리 상한(3GB)으로 다른 서비스를 보호하려고 |
-| 리프레시 토큰 계열 단위 관리 | 여러 탭의 동시 갱신은 허용하고, 탈취된 토큰이 다시 쓰이면 계열 전체를 폐기하려고 |
+<table>
+<thead>
+<tr><th nowrap>선택</th><th nowrap>이유</th></tr>
+</thead>
+<tbody>
+<tr><td nowrap>Elasticsearch + nori</td><td>띄어쓰기 없이 "총균쇠"로 검색해도 「총 균 쇠」를 찾도록 한국어 형태소 분석이 필요해서</td></tr>
+<tr><td nowrap>PostgreSQL 부분 인덱스·CHECK 제약</td><td>331만 권 중 검색·추천 대상만 빠르게 고르고, 데이터 정책을 DB 수준에서 지키려고</td></tr>
+<tr><td nowrap>DuckDB</td><td>수백만 행의 원천 파일을 DB에 넣기 전에 PC에서 바로 정제하고 합치려고</td></tr>
+<tr><td nowrap>systemd로 수집기 운영</td><td>며칠씩 걸리는 수집을 서버에서 무인으로 돌리고, 메모리 상한(3GB)으로 다른 서비스를 보호하려고</td></tr>
+<tr><td nowrap>리프레시 토큰 계열 단위 관리</td><td>여러 탭의 동시 갱신은 허용하고, 탈취된 토큰이 다시 쓰이면 계열 전체를 폐기하려고</td></tr>
+</tbody>
+</table>
 
 ## 검토와 제안
 
